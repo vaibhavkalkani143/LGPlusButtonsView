@@ -216,11 +216,13 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonDescriptionsPosition)
             [_descriptionWrapperViewsArray addObject:wrapperView];
 
             LGPlusButtonDescription *description = [LGPlusButtonDescription new];
+            [description setTag:i];
             [wrapperView addSubview:description];
 
             [_descriptionsArray addObject:description];
         }
 
+        [self setDescriptionsTap];
         // -----
 
         _showing = showAfterInit;
@@ -230,6 +232,18 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonDescriptionsPosition)
     }
     return self;
 }
+
+- (void)setDescriptionsTap {
+    for (NSUInteger i=0; i<_descriptionsArray.count; i++)
+    {
+        [_descriptionsArray[i] setUserInteractionEnabled:true];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buttonDescriptionAction:)];
+        tapGesture.delegate = self;
+        [_descriptionsArray[i] addGestureRecognizer:tapGesture];
+        
+    }
+}
+
 
 + (instancetype)plusButtonsViewWithNumberOfButtons:(NSUInteger)numberOfButtons
                            firstButtonIsPlusButton:(BOOL)firstButtonIsPlusButton
@@ -319,6 +333,16 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonDescriptionsPosition)
 
         view = [button hitTest:newPoint withEvent:event];
         if (view) break;
+    }
+    
+    if(!view){
+        for (LGPlusButtonDescription *description in _descriptionsArray)
+        {
+            CGPoint newPoint = [self convertPoint:point toView:description];
+            
+            view = [description hitTest:newPoint withEvent:event];
+            if (view) break;
+        }
     }
 
     if (!view && _coverColor && !_coverView.isHidden)
@@ -1287,6 +1311,39 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonDescriptionsPosition)
     if (button.tag != NSNotFound)
         [userInfo setObject:[NSNumber numberWithInteger:button.tag] forKey:@"index"];
 
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLGPlusButtonsViewActionNotification object:self userInfo:userInfo];
+}
+
+- (void)buttonDescriptionAction:(UITapGestureRecognizer *)recognizer
+{
+    NSUInteger index = (recognizer.view).tag;
+    
+    LGPlusButton *button = _buttonsArray[index];
+    LGPlusButtonDescription *description = _descriptionsArray[index];
+    
+    if (self.isFirstButtonIsPlusButton && index == 0)
+    {
+        if (button.isSelected)
+            [self hideButtonsAnimated:YES completionHandler:nil];
+        else
+            [self showButtonsAnimated:YES completionHandler:nil];
+    }
+    
+    // -----
+    
+    if (_actionHandler) _actionHandler(self, button.titleLabel.text, description.text, button.tag);
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(plusButtonsView:buttonPressedWithTitle:description:index:)])
+        [_delegate plusButtonsView:self buttonPressedWithTitle:button.titleLabel.text description:description.text index:button.tag];
+    
+    NSMutableDictionary *userInfo = [NSMutableDictionary new];
+    if (button.titleLabel.text)
+        [userInfo setObject:button.titleLabel.text forKey:@"title"];
+    if (description.text)
+        [userInfo setObject:description.text forKey:@"description"];
+    if (button.tag != NSNotFound)
+        [userInfo setObject:[NSNumber numberWithInteger:button.tag] forKey:@"index"];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kLGPlusButtonsViewActionNotification object:self userInfo:userInfo];
 }
 

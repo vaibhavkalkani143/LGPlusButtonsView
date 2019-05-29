@@ -58,7 +58,7 @@ static NSString *const kLGPlusButtonsViewActionNotification          = @"kLGPlus
 
 @end
 
-@interface LGPlusButtonsView : UIView
+@interface LGPlusButtonsView : UIView <UIGestureRecognizerDelegate>
 
 typedef NS_ENUM(NSUInteger, LGPlusButtonsViewOrientation)
 {
