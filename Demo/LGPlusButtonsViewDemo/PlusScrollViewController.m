@@ -96,7 +96,8 @@
     [_plusButtonsViewMain setButtonAtIndex:3 backgroundColor:[UIColor colorWithRed:0.f green:0.8 blue:0.f alpha:1.f] forState:UIControlStateHighlighted];
 
     [_plusButtonsViewMain setDescriptionsBackgroundColor:[UIColor whiteColor]];
-    [_plusButtonsViewMain setDescriptionsTextColor:[UIColor blackColor]];
+    //[_plusButtonsViewMain setDescriptionsTextColor:[UIColor blackColor]];
+    [_plusButtonsViewNavBar setDescriptionsTextColor:0 textColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_plusButtonsViewMain setDescriptionsLayerShadowColor:[UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.f]];
     [_plusButtonsViewMain setDescriptionsLayerShadowOpacity:0.25];
     [_plusButtonsViewMain setDescriptionsLayerShadowRadius:1.f];
@@ -143,7 +144,8 @@
     [_plusButtonsViewNavBar setButtonsLayerShadowRadius:3.f];
     [_plusButtonsViewNavBar setButtonsLayerShadowOffset:CGSizeMake(0.f, 2.f)];
 
-    [_plusButtonsViewNavBar setDescriptionsTextColor:[UIColor whiteColor]];
+    //[_plusButtonsViewNavBar setDescriptionsTextColor:[UIColor whiteColor]];
+    [_plusButtonsViewNavBar setDescriptionsTextColor:0 textColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_plusButtonsViewNavBar setDescriptionsBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.66]];
     [_plusButtonsViewNavBar setDescriptionsLayerCornerRadius:6.f forOrientation:LGPlusButtonsViewOrientationAll];
     [_plusButtonsViewNavBar setDescriptionsContentEdgeInsets:UIEdgeInsetsMake(4.f, 8.f, 4.f, 8.f) forOrientation:LGPlusButtonsViewOrientationAll];
@@ -184,7 +186,8 @@
     [_plusButtonsViewExample setButtonAtIndex:0 titleOffset:CGPointMake(0.f, -2.f) forOrientation:LGPlusButtonsViewOrientationAll];
     [_plusButtonsViewExample setButtonAtIndex:0 title:@"-" forState:UIControlStateSelected];
 
-    [_plusButtonsViewExample setDescriptionsTextColor:[UIColor whiteColor]];
+    //[_plusButtonsViewExample setDescriptionsTextColor:[UIColor whiteColor]];
+    [_plusButtonsViewNavBar setDescriptionsTextColor:0 textColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_plusButtonsViewExample setDescriptionsFont:[UIFont boldSystemFontOfSize:18.f] forOrientation:LGPlusButtonsViewOrientationAll];
     [_plusButtonsViewExample setDescriptionsInsets:UIEdgeInsetsMake(0.f, 0.f, 0.f, 4.f) forOrientation:LGPlusButtonsViewOrientationAll];
 
