@@ -213,7 +213,7 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonAnimationType)
 #pragma mark - Descriptions all
 
 - (void)setDescriptionsTexts:(NSArray *)texts;
-- (void)setDescriptionsTextColor:(UIColor *)textColor;
+- (void)setDescriptionsTextColor:(NSUInteger)index textColor:(UIColor *)textColor forState:(UIControlState)state;
 - (void)setDescriptionsBackgroundColor:(UIColor *)backgroundColor;
 
 /** Defailt is [UIFont systemFontOfSize:14.f] */

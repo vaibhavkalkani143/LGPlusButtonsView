@@ -30,7 +30,7 @@
 #import "LGPlusButtonsView.h"
 #import "LGPlusButton.h"
 #import "LGPlusButtonDescription.h"
-#import "LGPlusButtonsViewShared.h"
+#import "LGPlusButtonsViewShared.h" 
 
 #define kLGPlusButtonsViewDegreesToRadians(d)     ((d) * M_PI / 180)
 #define kLGPlusButtonsViewAssertionWarning(value) [NSString stringWithFormat:@"Number of buttons needs to be equal to numbers of %@", value]
@@ -327,8 +327,15 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonDescriptionsPosition)
 
     UIView *view = nil;
 
-    for (LGPlusButton *button in _buttonsArray)
-    {
+    for (NSUInteger i=0; i<_buttonsArray.count; i++)
+      {		      
+         LGPlusButton *button = _buttonsArray[i];
+         WrapperView *buttonWrapperView = _buttonWrapperViewsArray1[i];
+         
+         // don't process event if button is hidden.
+         if (buttonWrapperView.alpha == 0.) {
+             continue;
+         }
         CGPoint newPoint = [self convertPoint:point toView:button];
 
         view = [button hitTest:newPoint withEvent:event];
@@ -771,10 +778,14 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonDescriptionsPosition)
     [self setNeedsLayout];
 }
 
-- (void)setDescriptionsTextColor:(UIColor *)textColor
+- (void)setDescriptionsTextColor:(NSUInteger)index textColor:(UIColor *)textColor forState:(UIControlState)state
 {
-    for (LGPlusButtonDescription *description in _descriptionsArray)
-        description.textColor = textColor;
+    //_buttonsArray[index] setTitleColor:textColor forState:UIControlStateNormal];
+    
+    ((LGPlusButtonDescription *)_descriptionsArray[index]).textColor = textColor;
+    
+//    for (LGPlusButtonDescription *description in _descriptionsArray)
+//        description.textColor = textColor;
 }
 
 - (void)setDescriptionsBackgroundColor:(UIColor *)backgroundColor
@@ -1907,7 +1918,7 @@ typedef NS_ENUM(NSUInteger, LGPlusButtonDescriptionsPosition)
     else if (type == LGPlusButtonAnimationTypeRotate)
     {
         CGAffineTransform transform = CGAffineTransformIdentity;
-        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeRotation(kLGPlusButtonsViewDegreesToRadians(45)));
+        transform = CGAffineTransformConcat(transform, CGAffineTransformMakeRotation(kLGPlusButtonsViewDegreesToRadians(-45)));
 
         if (animated)
         {
